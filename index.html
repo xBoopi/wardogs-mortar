@@ -1,0 +1,1288 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>WARDOGS Mortar Calculator</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #181818;
+            color: white;
+            text-align: center;
+            padding: 40px 15px;
+        }
+
+        .calculator {
+            width: 600px;
+            max-width: 95%;
+            margin: auto;
+            background: #252525;
+            padding: 30px;
+            border-radius: 12px;
+        }
+
+        h1 {
+            margin: 0 0 5px 0;
+        }
+
+        .subtitle {
+            color: #999;
+            margin-bottom: 5px;
+        }
+
+        .range-info {
+            color: #bbb;
+            font-size: 13px;
+            margin-bottom: 25px;
+        }
+
+        .section {
+            background: #202020;
+            padding: 18px;
+            border-radius: 10px;
+            margin-top: 16px;
+        }
+
+        .section h2,
+        .section h3 {
+            margin-top: 0;
+        }
+
+        .optional {
+            color: #888;
+            font-size: 13px;
+            font-weight: normal;
+        }
+
+        .input-row {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        input {
+            width: 120px;
+            padding: 12px;
+            background: #333;
+            color: white;
+            border: 1px solid #555;
+            border-radius: 6px;
+            font-size: 16px;
+            text-align: center;
+        }
+
+        input:focus {
+            outline: 2px solid #888;
+        }
+
+        .buttons {
+            margin-top: 25px;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        button {
+            padding: 12px 18px;
+            background: #444;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        button:hover {
+            background: #555;
+        }
+
+        .calculate-button {
+            background: #666;
+            font-weight: bold;
+        }
+
+        .target-result {
+            margin-top: 18px;
+            padding: 18px;
+            background: #181818;
+            border-radius: 8px;
+        }
+
+        .target-name {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .distance {
+            color: #aaa;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        .fire-data {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .fire-box {
+            background: #222;
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        .fire-label {
+            font-size: 12px;
+            color: #999;
+            letter-spacing: 1px;
+        }
+
+        .fire-number {
+            font-size: 32px;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+
+        .fire-small {
+            margin-top: 3px;
+            font-size: 13px;
+            color: #bbb;
+        }
+
+        .fire-command {
+            margin-top: 14px;
+            background: #303030;
+            padding: 12px;
+            border-radius: 7px;
+            font-size: 19px;
+            font-weight: bold;
+        }
+
+        .inactive {
+            color: #777;
+        }
+
+        .error {
+            color: #ffb3b3;
+        }
+
+        #copyStatus {
+            min-height: 20px;
+            margin-top: 10px;
+            font-size: 13px;
+            color: #bbb;
+        }
+
+        .compass-help {
+            margin-top: 25px;
+            padding: 15px;
+            background: #1f1f1f;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        .compass-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .north {
+            grid-column: 2;
+        }
+
+        .west {
+            grid-column: 1;
+        }
+
+        .east {
+            grid-column: 3;
+        }
+
+        .south {
+            grid-column: 2;
+        }
+
+        .version {
+            margin-top: 22px;
+            font-size: 12px;
+            color: #666;
+        }
+
+        @media (max-width: 500px) {
+            .fire-data {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+
+<body>
+
+<div class="calculator">
+
+    <h1>WARDOGS Mortar</h1>
+
+    <div class="subtitle">
+        L81 Fire Control
+    </div>
+
+    <div class="range-info">
+        L81 Reichweite: 132–684 m
+    </div>
+
+
+    <!-- MÖRSER -->
+
+    <div class="section">
+
+        <h2>Mörser Position</h2>
+
+        <div class="input-row">
+
+            <input
+                id="mortarX"
+                type="text"
+                inputmode="decimal"
+                placeholder="X"
+            >
+
+            <input
+                id="mortarY"
+                type="text"
+                inputmode="decimal"
+                placeholder="Y"
+            >
+
+        </div>
+
+    </div>
+
+
+    <!-- ALPHA -->
+
+    <div class="section">
+
+        <h3>Ziel Alpha</h3>
+
+        <div class="input-row">
+
+            <input
+                id="alphaX"
+                type="text"
+                inputmode="decimal"
+                placeholder="X"
+            >
+
+            <input
+                id="alphaY"
+                type="text"
+                inputmode="decimal"
+                placeholder="Y"
+            >
+
+        </div>
+
+        <div id="alphaResult" class="target-result">
+            <span class="inactive">
+                Noch nicht berechnet.
+            </span>
+        </div>
+
+    </div>
+
+
+    <!-- BRAVO -->
+
+    <div class="section">
+
+        <h3>
+            Ziel Bravo
+            <span class="optional">
+                (optional)
+            </span>
+        </h3>
+
+        <div class="input-row">
+
+            <input
+                id="bravoX"
+                type="text"
+                inputmode="decimal"
+                placeholder="X"
+            >
+
+            <input
+                id="bravoY"
+                type="text"
+                inputmode="decimal"
+                placeholder="Y"
+            >
+
+        </div>
+
+        <div id="bravoResult" class="target-result">
+            <span class="inactive">
+                Kein Ziel eingetragen.
+            </span>
+        </div>
+
+    </div>
+
+
+    <!-- BUTTONS -->
+
+    <div class="buttons">
+
+        <button
+            class="calculate-button"
+            onclick="calculateAll()"
+        >
+            Berechnen
+        </button>
+
+        <button onclick="clearTargets()">
+            Ziele löschen
+        </button>
+
+        <button onclick="copyResults()">
+            Ergebnisse kopieren
+        </button>
+
+        <button onclick="resetCalculator()">
+            Alles zurücksetzen
+        </button>
+
+    </div>
+
+
+    <div id="copyStatus"></div>
+
+
+    <!-- KOMPASS -->
+
+    <div class="compass-help">
+
+        <strong>Kompass-Hilfe</strong>
+
+        <div class="compass-grid">
+
+            <div class="north">
+                ↑<br>
+                0° Norden
+            </div>
+
+            <div class="west">
+                ←<br>
+                270° Westen
+            </div>
+
+            <div>
+                +
+            </div>
+
+            <div class="east">
+                →<br>
+                90° Osten
+            </div>
+
+            <div class="south">
+                ↓<br>
+                180° Süden
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="version">
+        WARDOGS Mortar Calculator v1.0
+    </div>
+
+</div>
+
+
+
+<script>
+
+let lastResults = [];
+
+
+// --------------------------------------------------
+// KOORDINATEN
+// Punkt UND Komma funktionieren
+// --------------------------------------------------
+
+function parseCoordinate(value) {
+
+    const normalizedValue =
+        value.trim().replace(",", ".");
+
+    return Number(normalizedValue);
+}
+
+
+// --------------------------------------------------
+// BEARING SCHÖN FORMATIEREN
+// 9° → 009.0°
+// 90° → 090.0°
+// --------------------------------------------------
+
+function formatBearing(bearing) {
+
+    return bearing
+        .toFixed(1)
+        .padStart(5, "0");
+}
+
+
+// --------------------------------------------------
+// L81 FIRING TABLE
+// --------------------------------------------------
+
+function getL81Mil(distance) {
+
+    const firingTable = [
+
+        [132, 850],
+        [140, 840],
+        [151, 830],
+        [163, 820],
+        [175, 810],
+        [187, 800],
+        [198, 790],
+        [208, 780],
+        [219, 770],
+        [229, 760],
+        [239, 750],
+        [250, 740],
+        [260, 730],
+        [270, 720],
+        [280, 710],
+        [290, 700],
+        [300, 690],
+        [310, 680],
+        [319, 670],
+        [329, 660],
+        [339, 650],
+        [348, 640],
+        [358, 630],
+        [367, 620],
+        [376, 610],
+        [385, 600],
+        [394, 590],
+        [403, 580],
+        [412, 570],
+        [420, 560],
+        [429, 550],
+        [437, 540],
+        [446, 530],
+        [454, 520],
+        [462, 510],
+        [470, 500],
+        [478, 490],
+        [486, 480],
+        [494, 470],
+        [501, 460],
+        [509, 450],
+        [516, 440],
+        [524, 430],
+        [531, 420],
+        [538, 410],
+        [545, 400],
+        [552, 390],
+        [559, 380],
+        [565, 370],
+        [572, 360],
+        [578, 350],
+        [585, 340],
+        [591, 330],
+        [597, 320],
+        [603, 310],
+        [609, 300],
+        [615, 290],
+        [620, 280],
+        [626, 270],
+        [631, 260],
+        [636, 250],
+        [641, 240],
+        [646, 230],
+        [651, 220],
+        [656, 210],
+        [661, 200],
+        [666, 190],
+        [670, 180],
+        [675, 170],
+        [680, 160],
+        [684, 150]
+
+    ];
+
+
+    if (distance < 132 || distance > 684) {
+        return null;
+    }
+
+
+    for (
+        let i = 0;
+        i < firingTable.length - 1;
+        i++
+    ) {
+
+        const distance1 =
+            firingTable[i][0];
+
+        const mil1 =
+            firingTable[i][1];
+
+        const distance2 =
+            firingTable[i + 1][0];
+
+        const mil2 =
+            firingTable[i + 1][1];
+
+
+        if (
+            distance >= distance1 &&
+            distance <= distance2
+        ) {
+
+            const percentage =
+                (distance - distance1) /
+                (distance2 - distance1);
+
+
+            return (
+                mil1 +
+                percentage *
+                (mil2 - mil1)
+            );
+        }
+    }
+
+
+    return null;
+}
+
+
+// --------------------------------------------------
+// HIMMELSRICHTUNG
+// --------------------------------------------------
+
+function getDirectionName(bearing) {
+
+    if (bearing >= 337.5 || bearing < 22.5) {
+        return "Norden";
+    }
+
+    if (bearing < 67.5) {
+        return "Nordost";
+    }
+
+    if (bearing < 112.5) {
+        return "Osten";
+    }
+
+    if (bearing < 157.5) {
+        return "Südost";
+    }
+
+    if (bearing < 202.5) {
+        return "Süden";
+    }
+
+    if (bearing < 247.5) {
+        return "Südwest";
+    }
+
+    if (bearing < 292.5) {
+        return "Westen";
+    }
+
+    return "Nordwest";
+}
+
+
+// --------------------------------------------------
+// EIN ZIEL BERECHNEN
+// --------------------------------------------------
+
+function calculateTarget(
+    name,
+    xInputId,
+    yInputId,
+    resultId,
+    required
+) {
+
+    const xInput =
+        document.getElementById(xInputId).value;
+
+    const yInput =
+        document.getElementById(yInputId).value;
+
+    const resultBox =
+        document.getElementById(resultId);
+
+
+    if (
+        xInput.trim() === "" &&
+        yInput.trim() === ""
+    ) {
+
+        if (required) {
+
+            resultBox.innerHTML =
+                '<span class="error">' +
+                '⚠ Bitte Zielkoordinaten eingeben.' +
+                '</span>';
+
+        } else {
+
+            resultBox.innerHTML =
+                '<span class="inactive">' +
+                'Kein Ziel eingetragen.' +
+                '</span>';
+        }
+
+        return;
+    }
+
+
+    if (
+        xInput.trim() === "" ||
+        yInput.trim() === ""
+    ) {
+
+        resultBox.innerHTML =
+            '<span class="error">' +
+            '⚠ Bitte X und Y eingeben.' +
+            '</span>';
+
+        return;
+    }
+
+
+    const targetX =
+        parseCoordinate(xInput);
+
+    const targetY =
+        parseCoordinate(yInput);
+
+
+    if (
+        !Number.isFinite(targetX) ||
+        !Number.isFinite(targetY)
+    ) {
+
+        resultBox.innerHTML =
+            '<span class="error">' +
+            '⚠ Ungültige Zielkoordinaten.' +
+            '</span>';
+
+        return;
+    }
+
+
+    const mortarX =
+        parseCoordinate(
+            document.getElementById("mortarX").value
+        );
+
+    const mortarY =
+        parseCoordinate(
+            document.getElementById("mortarY").value
+        );
+
+
+    const dx =
+        targetX - mortarX;
+
+    const dy =
+        targetY - mortarY;
+
+
+    const coordinateScale = 100;
+
+
+    const distance =
+        Math.sqrt(
+            dx * dx +
+            dy * dy
+        );
+
+
+    const distanceMeters =
+        distance *
+        coordinateScale;
+
+
+    let bearing =
+        Math.atan2(dx, dy) *
+        180 /
+        Math.PI;
+
+
+    if (bearing < 0) {
+        bearing += 360;
+    }
+
+
+    const directionName =
+        getDirectionName(bearing);
+
+
+    const formattedBearing =
+        formatBearing(bearing);
+
+
+    const mil =
+        getL81Mil(distanceMeters);
+
+
+    // Außerhalb Reichweite
+
+    if (mil === null) {
+
+        resultBox.innerHTML =
+
+            '<div class="target-name">' +
+            name +
+            '</div>' +
+
+            '<div class="distance">' +
+            distanceMeters.toFixed(0) +
+            ' m Entfernung' +
+            '</div>' +
+
+            '<div class="fire-data">' +
+
+                '<div class="fire-box">' +
+
+                    '<div class="fire-label">' +
+                    'RICHTUNG' +
+                    '</div>' +
+
+                    '<div class="fire-number">' +
+                    formattedBearing +
+                    '°</div>' +
+
+                    '<div class="fire-small">' +
+                    directionName +
+                    '</div>' +
+
+                '</div>' +
+
+                '<div class="fire-box">' +
+
+                    '<div class="fire-label">' +
+                    'ELEVATION' +
+                    '</div>' +
+
+                    '<div class="fire-number">' +
+                    '—' +
+                    '</div>' +
+
+                    '<div class="fire-small error">' +
+                    'Außer Reichweite' +
+                    '</div>' +
+
+                '</div>' +
+
+            '</div>';
+
+
+        lastResults.push(
+
+            name +
+            ": " +
+            distanceMeters.toFixed(0) +
+            " m | " +
+            formattedBearing +
+            "° | AUSSER REICHWEITE"
+
+        );
+
+        return;
+    }
+
+
+    const roundedMil =
+        mil.toFixed(0);
+
+
+    // Normales Ergebnis
+
+    resultBox.innerHTML =
+
+        '<div class="target-name">' +
+        name +
+        '</div>' +
+
+        '<div class="distance">' +
+        distanceMeters.toFixed(0) +
+        ' m Entfernung' +
+        '</div>' +
+
+        '<div class="fire-data">' +
+
+            '<div class="fire-box">' +
+
+                '<div class="fire-label">' +
+                'RICHTUNG' +
+                '</div>' +
+
+                '<div class="fire-number">' +
+                formattedBearing +
+                '°</div>' +
+
+                '<div class="fire-small">' +
+                directionName +
+                '</div>' +
+
+            '</div>' +
+
+            '<div class="fire-box">' +
+
+                '<div class="fire-label">' +
+                'ELEVATION' +
+                '</div>' +
+
+                '<div class="fire-number">' +
+                roundedMil +
+                '</div>' +
+
+                '<div class="fire-small">' +
+                'MIL' +
+                '</div>' +
+
+            '</div>' +
+
+        '</div>' +
+
+        '<div class="fire-command">' +
+
+            'FIRE: ' +
+            formattedBearing +
+            '° / ' +
+            roundedMil +
+            ' MIL' +
+
+        '</div>';
+
+
+    lastResults.push(
+
+        name +
+        ": FIRE " +
+        formattedBearing +
+        "° / " +
+        roundedMil +
+        " MIL (" +
+        distanceMeters.toFixed(0) +
+        " m)"
+
+    );
+}
+
+
+// --------------------------------------------------
+// ALLES BERECHNEN
+// --------------------------------------------------
+
+function calculateAll() {
+
+    const mortarXInput =
+        document.getElementById("mortarX").value;
+
+    const mortarYInput =
+        document.getElementById("mortarY").value;
+
+
+    document.getElementById(
+        "copyStatus"
+    ).textContent = "";
+
+
+    lastResults = [];
+
+
+    if (
+        mortarXInput.trim() === "" ||
+        mortarYInput.trim() === ""
+    ) {
+
+        alert(
+            "Bitte zuerst die Mörserposition eingeben."
+        );
+
+        return;
+    }
+
+
+    const mortarX =
+        parseCoordinate(mortarXInput);
+
+    const mortarY =
+        parseCoordinate(mortarYInput);
+
+
+    if (
+        !Number.isFinite(mortarX) ||
+        !Number.isFinite(mortarY)
+    ) {
+
+        alert(
+            "Die Mörserposition enthält ungültige Werte."
+        );
+
+        return;
+    }
+
+
+    saveMortarPosition();
+
+
+    calculateTarget(
+        "ALPHA",
+        "alphaX",
+        "alphaY",
+        "alphaResult",
+        true
+    );
+
+
+    calculateTarget(
+        "BRAVO",
+        "bravoX",
+        "bravoY",
+        "bravoResult",
+        false
+    );
+}
+
+
+// --------------------------------------------------
+// NUR ZIELE LÖSCHEN
+// Mörserposition bleibt erhalten
+// --------------------------------------------------
+
+function clearTargets() {
+
+    document.getElementById("alphaX").value = "";
+    document.getElementById("alphaY").value = "";
+
+    document.getElementById("bravoX").value = "";
+    document.getElementById("bravoY").value = "";
+
+
+    document.getElementById(
+        "alphaResult"
+    ).innerHTML =
+
+        '<span class="inactive">' +
+        'Noch nicht berechnet.' +
+        '</span>';
+
+
+    document.getElementById(
+        "bravoResult"
+    ).innerHTML =
+
+        '<span class="inactive">' +
+        'Kein Ziel eingetragen.' +
+        '</span>';
+
+
+    document.getElementById(
+        "copyStatus"
+    ).textContent = "";
+
+
+    lastResults = [];
+
+
+    document.getElementById(
+        "alphaX"
+    ).focus();
+}
+
+
+// --------------------------------------------------
+// ALLES ZURÜCKSETZEN
+// --------------------------------------------------
+
+function resetCalculator() {
+
+    document
+        .querySelectorAll("input")
+        .forEach(function(input) {
+
+            input.value = "";
+
+        });
+
+
+    document.getElementById(
+        "alphaResult"
+    ).innerHTML =
+
+        '<span class="inactive">' +
+        'Noch nicht berechnet.' +
+        '</span>';
+
+
+    document.getElementById(
+        "bravoResult"
+    ).innerHTML =
+
+        '<span class="inactive">' +
+        'Kein Ziel eingetragen.' +
+        '</span>';
+
+
+    document.getElementById(
+        "copyStatus"
+    ).textContent = "";
+
+
+    lastResults = [];
+
+
+    try {
+
+        localStorage.removeItem(
+            "wardogsMortarX"
+        );
+
+        localStorage.removeItem(
+            "wardogsMortarY"
+        );
+
+    } catch (error) {
+
+        console.log(
+            "Speichern nicht verfügbar."
+        );
+    }
+
+
+    document.getElementById(
+        "mortarX"
+    ).focus();
+}
+
+
+// --------------------------------------------------
+// MÖRSERPOSITION SPEICHERN
+// --------------------------------------------------
+
+function saveMortarPosition() {
+
+    try {
+
+        localStorage.setItem(
+            "wardogsMortarX",
+            document.getElementById(
+                "mortarX"
+            ).value
+        );
+
+
+        localStorage.setItem(
+            "wardogsMortarY",
+            document.getElementById(
+                "mortarY"
+            ).value
+        );
+
+    } catch (error) {
+
+        console.log(
+            "Speichern nicht verfügbar."
+        );
+    }
+}
+
+
+// --------------------------------------------------
+// GESPEICHERTE MÖRSERPOSITION LADEN
+// --------------------------------------------------
+
+function loadMortarPosition() {
+
+    try {
+
+        const savedX =
+            localStorage.getItem(
+                "wardogsMortarX"
+            );
+
+        const savedY =
+            localStorage.getItem(
+                "wardogsMortarY"
+            );
+
+
+        if (savedX !== null) {
+
+            document.getElementById(
+                "mortarX"
+            ).value = savedX;
+
+        }
+
+
+        if (savedY !== null) {
+
+            document.getElementById(
+                "mortarY"
+            ).value = savedY;
+
+        }
+
+    } catch (error) {
+
+        console.log(
+            "Speichern nicht verfügbar."
+        );
+    }
+}
+
+
+// --------------------------------------------------
+// ERGEBNISSE KOPIEREN
+// --------------------------------------------------
+
+async function copyResults() {
+
+    const status =
+        document.getElementById(
+            "copyStatus"
+        );
+
+
+    if (lastResults.length === 0) {
+
+        status.textContent =
+            "Noch keine Ergebnisse vorhanden.";
+
+        return;
+    }
+
+
+    const text =
+
+        "WARDOGS L81 FIRE MISSION\n\n" +
+
+        lastResults.join("\n");
+
+
+    try {
+
+        await navigator.clipboard.writeText(
+            text
+        );
+
+
+        status.textContent =
+            "✓ Ergebnisse kopiert";
+
+    } catch (error) {
+
+        const textArea =
+            document.createElement(
+                "textarea"
+            );
+
+
+        textArea.value =
+            text;
+
+
+        document.body.appendChild(
+            textArea
+        );
+
+
+        textArea.select();
+
+
+        document.execCommand(
+            "copy"
+        );
+
+
+        document.body.removeChild(
+            textArea
+        );
+
+
+        status.textContent =
+            "✓ Ergebnisse kopiert";
+    }
+}
+
+
+// --------------------------------------------------
+// ENTER = BERECHNEN
+// --------------------------------------------------
+
+document
+    .querySelectorAll("input")
+    .forEach(function(input) {
+
+        input.addEventListener(
+            "keydown",
+            function(event) {
+
+                if (event.key === "Enter") {
+
+                    calculateAll();
+
+                }
+            }
+        );
+    });
+
+
+// Mörserposition direkt speichern,
+// sobald sie verändert wird
+
+document
+    .getElementById("mortarX")
+    .addEventListener(
+        "input",
+        saveMortarPosition
+    );
+
+
+document
+    .getElementById("mortarY")
+    .addEventListener(
+        "input",
+        saveMortarPosition
+    );
+
+
+// Beim Öffnen der Seite gespeicherte
+// Mörserposition wieder laden
+
+loadMortarPosition();
+
+</script>
+
+</body>
+
+</html>
